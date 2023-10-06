@@ -1,0 +1,33 @@
+<h1>Lista de productos</h1>
+
+<form id="form-add" action="">
+    <input id="title" placeholder="title" type="text">;
+    <input id="description" placeholder="description" type="text">;
+    <input id="code" placeholder="code" type="number">;
+    <input id="price" placeholder="price" type="number">;
+    <input id="stock" placeholder="stock" type="number">;
+    <input id="category" placeholder="category" type="text">;
+    <button type="submit">Agregar producto</button>;
+</form>
+
+<form id="form-delete" action="">
+    <input id="number" placeholder="id" type="number">;
+    <button type="submit">Eliminar producto</button>;
+</form>
+
+<ul>
+  {{#each listProducts}}
+    <br>
+    <br>
+    <li>ID: {{this.id}}</li>
+    <li>Title: {{this.title}}</li>
+    <li>Description: {{this.description}}</li>
+    <li>Code: {{this.code}}</li>
+    <li>Price: {{this.price}}</li>
+    <li>Stock: {{this.stock}}</li> 
+    <li>Category: {{this.category}}</li>
+  {{/each}}
+</ul>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
