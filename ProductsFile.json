@@ -1,12 +1,1 @@
-[
-    {
-        "id": 1,
-        "title": "Notebook",
-        "description": "Portatil",
-        "code": "101",
-        "price": "20000",
-        "stock": "10",
-        "category": "informatica",
-        "status": true
-    }
-]
+[{"id":1,"title":"Notebook","description":"Portatil","code":"101","price":"20000","stock":"10","category":"informatica","status":true},{"id":2,"title":"Nintendo","description":"consola gamming","code":"909","price":"9000","stock":"1","category":"history","status":true}]

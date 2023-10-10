@@ -22,26 +22,19 @@ app.use('/api/views', viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('api/carts',cartsRouter);
 
-const httpServer = app.listen(8080, () => {
-    console.log('Puerto 8080');
+const httpServer = app.listen(3000, () => {
+    console.log('Puerto 3000');
 });
 
 const socketServer = new Server(httpServer);
 
 socketServer.on('connection', (socket)=> {
 	console.log('cliente conectado');
-	try {
 		socket.on('product', async (product)  => {
 			await manager1.addProduct(product);
 		})
-	} catch (error) {
-		return error;
-	}
-	try {
+
 		socket.on('id', async (id)  => {
 			await manager1.deleteProduct(+id);
 		})
-	} catch (error) {
-		return error;
-	}
 });
