@@ -1,9 +1,12 @@
 import { Router } from 'express';
-import { manager1 } from '../ProductManager.js';
+import { manager1 } from '../dao/fileSystem/ProductManager.js';
+import { productsManagerDB } from '../dao/mongoDB/productsManagerDB.js';
 
 const router = Router();
 
-router.get('/', async (req, res) => {
+// rutas para fs
+
+router.get('/fs', async (req, res) => {
 	try {
 		const products = await manager1.getProducts(req.query);
 		res.status(200).json({ message: 'Products found', products });
@@ -12,7 +15,7 @@ router.get('/', async (req, res) => {
 	}
 })
 
-router.get('/:pid', async (req, res) => {
+router.get('/fs/:pid', async (req, res) => {
 	const { pid } = req.params;
 	try {
 		const product = await manager1.getProductById(+pid);
@@ -25,7 +28,7 @@ router.get('/:pid', async (req, res) => {
 	}
 })
 
-router.post("/", async (req, res) => {
+router.post("/fs", async (req, res) => {
 	const { title, description, code, price, stock, category } = req.body;
 
 	if (!title || !description || !code || !price || !stock || !category) {
@@ -40,7 +43,7 @@ router.post("/", async (req, res) => {
 	}
 })
 
-router.delete('/:pid', async (req, res) => {
+router.delete('/fs/:pid', async (req, res) => {
 	const { pid } = req.params;
 	try {
 		const response = await manager1.deleteProduct(+pid);
@@ -53,7 +56,7 @@ router.delete('/:pid', async (req, res) => {
 	}
 })
 
-router.put('/:pid', async (req, res) => {
+router.put('/fs/:pid', async (req, res) => {
 	const { pid } = req.params;
 	try {
 		const response = await manager1.updateProduct(+pid, req.body);
@@ -61,6 +64,60 @@ router.put('/:pid', async (req, res) => {
 			return res.status(404).json({ message: 'Product not found' });
 		}
 		res.status(200).json({ message: 'Product Updated' });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+})
+
+// routas para DB
+
+router.get('/db', async (req, res) => {
+	try {
+		const products = await productsManagerDB.mostrarProducts();
+		res.status(200).json({ message: 'Products found', products });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+})
+
+router.get('/db/:idP', async (req, res) => {
+	const { idP } = req.params;
+	try {
+		const product = await productsManagerDB.mostrarProductsId(idP);
+		res.status(200).json({ message: 'Product', product: product });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+})
+
+router.post('/db', async (req, res) => {
+	const { title, description, price, category } = req.body;
+	if (!title || !description || !price || !category) {
+		return res.status(400).json({ message: 'Faltan datos' });
+	}
+	try {
+		const newProduct = await productsManagerDB.crearProduct(req.body);
+		res.status(200).json({ message: 'Product created', newProduct });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+})
+
+router.put('/db/:idP', async (req, res) => {
+	const { idP } = req.params;
+	try {
+		const upProduct = await productsManagerDB.actualizarProduct(idP, req.body);
+		res.status(200).json({ message: 'Update Product', data: upProduct });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+})
+
+router.delete('/db/:idP', async (req, res) => {
+	const { idP } = req.params;
+	try {
+		await productsManagerDB.eliminarProduct(idP);
+		res.status(200).json({ message: 'Delete Product' });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
