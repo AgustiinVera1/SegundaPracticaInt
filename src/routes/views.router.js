@@ -1,6 +1,5 @@
 import { Router } from 'express'
 import { manager1 } from '../dao/fileSystem/ProductManager.js';
-
 const router = Router();
 
 router.get('/home', async (req, res) => {
