@@ -68,14 +68,14 @@ router.post('/db', async (req, res) => {
 	}
 })
 
-router.put('/db/:idC/:idP', async (req, res) => {
-	const { idC, idP } = req.params;
+router.post('/db/:idCart/products/:idProduct', async (req, res) => {
+	const { idCart, idProduct } = req.params;
 	try {
-		const productAdd = await cartManagerDB.agregarProductToCart(idC, idP);
+		const productAdd = await cartManagerDB.agregarProductToCart(idCart, idProduct);
 		res.status(200).json({ message: 'Product add to cart', productAdd: productAdd });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
-})
+})  
 
 export default router;

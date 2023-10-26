@@ -18,8 +18,14 @@ class CartManagerDB {
     }
 
     async agregarProductToCart(idCart, idProduct) {
-        const productAdd = await cartModel.updateOne({ _id: idCart }, { $push: { idProducts: idProduct } });
-        return productAdd;
+        const cart = await cartModel.findById(idCart);
+        const productIndex = cart.products.findIndex((p) => p.product === idProduct);
+        if (productIndex === -1) {
+            cart.products.push({ product: idProduct, quantify: 1 });
+        } else {
+            cart.products[productIndex].quantify++;
+        } 
+        return await cart.save();
     }
 
 }
