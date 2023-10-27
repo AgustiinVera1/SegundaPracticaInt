@@ -19,7 +19,7 @@ class CartManagerDB {
 
     async agregarProductToCart(idCart, idProduct) {
         const cart = await cartModel.findById(idCart);
-        const productIndex = cart.products.findIndex((p) => p.product === idProduct);
+        const productIndex = cart.products.findIndex((p) => p.product.equals(idProduct));
         if (productIndex === -1) {
             cart.products.push({ product: idProduct, quantify: 1 });
         } else {
