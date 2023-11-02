@@ -73,7 +73,7 @@ router.put('/fs/:pid', async (req, res) => {
 
 router.get('/db', async (req, res) => {
 	try {
-		const products = await productsManagerDB.mostrarProducts();
+		const products = await productsManagerDB.mostrarProducts(req.query);
 		res.status(200).json({ message: 'Products found', products });
 	} catch (error) {
 		res.status(500).json({ message: error.message });

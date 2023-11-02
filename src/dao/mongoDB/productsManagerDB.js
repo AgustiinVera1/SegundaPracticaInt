@@ -1,9 +1,24 @@
 import { productsModel } from "../models/products.model.js";
 
 class ProductsManagerDB {
-    async mostrarProducts() {
-        const products = await productsModel.find().lean();
-        return products;
+    async mostrarProducts(obj) {
+        const { limit = 10, page = 1, sort, ...query } = obj;
+        const sortPrice = sort ? { price: sort } : null;
+        const products = await productsModel.paginate(query, { limit, page, sort: sortPrice });
+        const info = {
+            status: products ? 'success' : 'error',
+            payload: products.totalDocs,
+            totalPages: products.totalPages,
+            prevPages: products.prevPages,
+            nextPages: products.nextPages,
+            page: products.page,
+            hasPrevPage: products.hasPrevPage,
+            hasNextPage: products.hasNextPage,
+            prevLink: products.hasPrevPage ? `http://localhost:3000/api/products/db?page=${products.prevPage}` : null,
+            nextLink: products.hasNextPage ? `http://localhost:3000/api/products/db?page=${products.nextPage}` : null,
+        };
+        const responseProducts = products.docs;
+        return { responseProducts, info };
     }
 
     async mostrarProductsId(id) {

@@ -7,7 +7,7 @@ class CartManagerDB {
     }
 
     async mostrarCartById(id) {
-        const cart = await cartModel.findById(id);
+        const cart = await cartModel.findById(id).populate('products.product'); //populate es para que muestre la info del producto y no el id
         return cart;
 
     }
@@ -28,5 +28,24 @@ class CartManagerDB {
         return await cart.save();
     }
 
+    async actualizarCart(idCart){
+        const cartUpdate = await cartModel.updateOne(idCart);
+        return cartUpdate;
+    }
+    
+    async actualizarQuantify(idCart,idProduct){
+        const quantifyUpdate = await cartModel.updateOne(idCart,idProduct);
+        return quantifyUpdate;
+    }
+    
+    async eliminarProductFromCart(idCart, idProduct) {
+        const productDelete = await cartModel.deleteOne(idCart, idProduct);
+        return productDelete;
+    }
+
+    async eliminarFullProductsFromCart(idCart){
+        const productFullDelete = await cartModel.deleteMany(idCart);
+        return productFullDelete;
+    }
 }
 export const cartManagerDB = new CartManagerDB();

@@ -76,6 +76,47 @@ router.post('/db/:idCart/products/:idProduct', async (req, res) => {
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
-})  
+})
+
+router.put('/db/:idC', async (req, res) => {
+	const { idC } = req.params;
+	try {
+		const cartUpdate = await cartManagerDB.actualizarCart(idC);
+		res.status(200).json({ message: 'Cart update', cartUpdate: cartUpdate });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+})
+
+router.put('/db/:idC/products/:idP', async (req, res) => {
+	const { idC, idP } = req.params;
+	try {
+		const quantifyUpdated = await cartManagerDB.actualizarQuantify(idC, idP);
+		res.status(200).json({ message: 'Quantify updated', quantifyUpdated: quantifyUpdated });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+})
+
+router.delete('/db/:idC/products/:idP', async (req, res) => {
+	const { idC, idP } = req.params;
+	try {
+		const productDelete = await cartManagerDB.eliminarProductFromCart(idC, idP);
+		res.status(200).json({ message: 'Product deleted', productDelete: productDelete });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+})
+
+router.delete('/db/:idC', async (req, res) => {
+	const { idC } = req.params;
+	try {
+		const productFullDelete = await cartManagerDB.eliminarFullProductsFromCart(idC);
+		res.status(200).json({ message: 'Products deleted', productFullDelete: productFullDelete });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+})
+
 
 export default router;
