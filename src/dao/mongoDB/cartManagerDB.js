@@ -12,8 +12,8 @@ class CartManagerDB {
 
     }
 
-    async crearCart(idP, quantify) {
-        const newCart = await cartModel.create(idP, quantify);
+    async crearCart(idP, quantity) {
+        const newCart = await cartModel.create(idP, quantity);
         return newCart;
     }
 
@@ -21,12 +21,13 @@ class CartManagerDB {
         const cart = await cartModel.findById(idCart);
         const productIndex = cart.products.findIndex((p) => p.product.equals(idProduct));
         if (productIndex === -1) {
-            cart.products.push({ product: idProduct, quantify: 1 });
+            cart.products.push({ product: idProduct, quantity: 1 });
         } else {
-            cart.products[productIndex].quantify++;
+            cart.products[productIndex].quantity++;
         } 
         return await cart.save();
     }
+// --------------------------------
 
     async actualizarCart(idCart){
         const cartUpdate = await cartModel.updateOne(idCart);

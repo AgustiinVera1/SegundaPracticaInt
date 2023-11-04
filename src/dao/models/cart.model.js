@@ -6,7 +6,7 @@ const cartSchema = new mongoose.Schema({
                 type: mongoose.SchemaTypes.ObjectId,
                 ref: 'products',
             },
-            quantify: {
+            quantity: {
                 type: Number,
             },
             _id: false, //para que no genere un id de mas

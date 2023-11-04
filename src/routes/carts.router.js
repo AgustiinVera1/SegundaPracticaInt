@@ -78,6 +78,8 @@ router.post('/db/:idCart/products/:idProduct', async (req, res) => {
 	}
 })
 
+// ----------------------------------------------------------------
+
 router.put('/db/:idC', async (req, res) => {
 	const { idC } = req.params;
 	try {

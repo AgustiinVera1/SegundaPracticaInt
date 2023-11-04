@@ -2,9 +2,11 @@ import { productsModel } from "../models/products.model.js";
 
 class ProductsManagerDB {
     async mostrarProducts(obj) {
-        const { limit = 10, page = 1, sort, ...query } = obj;
+        const { limit = 5, page = 1, sort, ...query } = obj;
         const sortPrice = sort ? { price: sort } : null;
-        const products = await productsModel.paginate(query, { limit, page, sort: sortPrice });
+        const options = { limit: limit, page: page, sort: sortPrice, lean: true };
+        
+        const products = await productsModel.paginate(query, options);
         const info = {
             status: products ? 'success' : 'error',
             payload: products.totalDocs,
@@ -16,9 +18,9 @@ class ProductsManagerDB {
             hasNextPage: products.hasNextPage,
             prevLink: products.hasPrevPage ? `http://localhost:3000/api/products/db?page=${products.prevPage}` : null,
             nextLink: products.hasNextPage ? `http://localhost:3000/api/products/db?page=${products.nextPage}` : null,
-        };
-        const responseProducts = products.docs;
-        return { responseProducts, info };
+        }
+        //const responseProducts = products.docs; (no me funciona con esta linea, por eso lo cambie por products)
+        return { products, info };
     }
 
     async mostrarProductsId(id) {

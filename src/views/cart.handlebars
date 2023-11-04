@@ -1,0 +1,10 @@
+<ul>
+  <li>carrito id:{{cart._id}}</li>
+  <li>productos agregados:</li>
+  <ul>
+    {{#each cart.products}}
+    <li>id: {{this._id}}</li>
+    <li>producto:{{this.product}}</li>
+    {{/each}}
+  </ul>
+</ul>

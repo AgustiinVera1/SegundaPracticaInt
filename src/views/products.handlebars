@@ -1,0 +1,17 @@
+<h2>Productos Paginate</h2>
+<div class="prod-contenedor">
+  <ul class='prod'>
+    {{#each objetos.products.docs}}
+    <br>
+    <li>ID: {{this._id}}</li>
+    <li>Title: {{this.title}}</li>
+    <li>Description: {{this.description}}</li>
+    <li>Code: {{this.code}}</li>
+    <li>Price: {{this.price}}</li>
+    <li>Stock: {{this.stock}}</li>
+    <li>Category: {{this.category}}</li>
+    <br>
+    {{/each}}
+  </ul>
+<button type="button" id="nextPage"><a href="http://localhost:3000/api/views/products?page={{nextPage}}">Siguiente pagina</a></button>
+</div>

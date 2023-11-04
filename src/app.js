@@ -19,6 +19,15 @@ app.use(express.static(__dirname + '/public'));
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
+/*
+app.engine('handlebars', engine({
+	defaultLayout:'main',
+	runtimeOptions:{
+		allowProtoPropertiesByDefault: true,
+		allowProtoMethodsByDefault: true
+	}
+}));
+*/
 
 //routes
 app.use('/api/views', viewsRouter);
