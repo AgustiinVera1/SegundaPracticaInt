@@ -3,10 +3,19 @@ import { engine } from 'express-handlebars';
 import { __dirname } from "./utils.js";
 import { Server } from "socket.io";
 import { manager1 } from "./dao/fileSystem/ProductManager.js";
+
+//sessiones
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import MongoStore from "connect-mongo";
+
 //routes
 import viewsRouter from './routes/views.router.js';
 import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
+import cookieRouter from './routes/cookie.router.js';
+import sessionsRouter from './routes/sessions.router.js';
+
 //DB
 import './config/configDB.js';
 
@@ -14,6 +23,16 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
+app.use(cookieParser('cookieSecret'));
+
+//session con mongo
+const URI = 'mongodb+srv://agustiinvera1:Contraseña110900@cluster0.tbbdfwn.mongodb.net/ecommerce?retryWrites=true&w=majority'
+app.use(session({
+  store: new MongoStore({mongoUrl:URI}),
+  secret: 'secretSession',
+  cookie: { maxAge: 600000 }
+}))
+
 
 //handlebars
 app.engine('handlebars', engine());
@@ -33,6 +52,8 @@ app.engine('handlebars', engine({
 app.use('/api/views', viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
+app.use('/api/cookie', cookieRouter);
+app.use('/api/sessions', sessionsRouter);
 
 const httpServer = app.listen(3000, () => {
 	console.log('Puerto 3000');

@@ -93,8 +93,8 @@ router.put('/db/:idC', async (req, res) => {
 router.put('/db/:idC/products/:idP', async (req, res) => {
 	const { idC, idP } = req.params;
 	try {
-		const quantifyUpdated = await cartManagerDB.actualizarQuantify(idC, idP);
-		res.status(200).json({ message: 'Quantify updated', quantifyUpdated: quantifyUpdated });
+		const quantityUpdated = await cartManagerDB.actualizarQuantify(idC, idP);
+		res.status(200).json({ message: 'Quantity updated', quantityUpdated: quantityUpdated });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}

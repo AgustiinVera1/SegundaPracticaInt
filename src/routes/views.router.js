@@ -48,4 +48,28 @@ router.get('/cart', async (req, res) => {
     }
 })
 
+//sessions
+router.get('/login', (req, res) => {
+   /* if (req.session.user) {
+        return res.redirect('/api/views/products')
+    }*/
+    res.render('login');
+})
+
+router.get('/signup', (req, res) => {
+    /*if (req.session.user) {
+        return res.redirect('/api/views/products')
+    }*/
+    res.render('signup');
+})
+
+router.get('/products', (req, res) => {
+    // console.log(req.session);
+    if (!req.session.user) {
+        return res.redirect('/api/views/login')
+    }
+    //console.log(req.session.user);
+    res.render('products', { user: req.session.user });
+})
+
 export default router;
