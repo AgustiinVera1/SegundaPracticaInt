@@ -31,8 +31,8 @@ router.post('/login', async (req, res) => {
     }
     const sessionInfo =
       email === 'adminCoder@coder.com' && password === 'adminCod3r123'
-        ? { email, first_name: user.first_name, isAdmin: true }
-        : { email, first_name: user.first_name, isAdmin: false };
+        ? { email, first_name: user.first_name, Administrador: 'Eres Admin' }
+        : { email, first_name: user.first_name, Administrador: 'No eres Admin' };
     req.session.user = sessionInfo; //para crear una session
     res.redirect('/api/views/products')
   } catch (error) {

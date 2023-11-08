@@ -27,12 +27,12 @@ router.get('/chat', async (req, res) => {
     res.render('chat');
 });
 
-//products paginate
+//products paginate y session
 router.get('/products', async (req, res) => {
     try {
         const response = await productsManagerDB.mostrarProducts(req.query);
         //console.log(response);
-        res.render('products', { objetos: response });
+        res.render('products', { objetos: response, user: req.session.user});
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -63,13 +63,5 @@ router.get('/signup', (req, res) => {
     res.render('signup');
 })
 
-router.get('/products', (req, res) => {
-    // console.log(req.session);
-    if (!req.session.user) {
-        return res.redirect('/api/views/login')
-    }
-    //console.log(req.session.user);
-    res.render('products', { user: req.session.user });
-})
 
 export default router;

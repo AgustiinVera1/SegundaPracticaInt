@@ -18,6 +18,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  Administrador:{
+    type: String,
+  }
 });
 
 export const userModel = mongoose.model('User',userSchema)
