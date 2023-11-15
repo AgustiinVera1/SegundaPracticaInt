@@ -27,12 +27,16 @@ router.get('/chat', async (req, res) => {
     res.render('chat');
 });
 
-//products paginate y session
+//products paginate y session y passport
 router.get('/products', async (req, res) => {
     try {
         const response = await productsManagerDB.mostrarProducts(req.query);
         //console.log(response);
-        res.render('products', { objetos: response, user: req.session.user});
+        if (!req.session.passport) {
+            return res.redirect('/api/views/login')
+        }
+        const { first_name, email, Administrador } = req.user;
+        res.render('products', { objetos: response, user: { first_name, email, Administrador } });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -50,9 +54,9 @@ router.get('/cart', async (req, res) => {
 
 //sessions
 router.get('/login', (req, res) => {
-   /* if (req.session.user) {
-        return res.redirect('/api/views/products')
-    }*/
+    /* if (req.session.user) {
+         return res.redirect('/api/views/products')
+     }*/
     res.render('login');
 })
 
@@ -63,5 +67,8 @@ router.get('/signup', (req, res) => {
     res.render('signup');
 })
 
+router.get('/error', async (req, res) => {
+    res.render('error');
+})
 
 export default router;

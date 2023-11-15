@@ -16,11 +16,14 @@ const userSchema = new mongoose.Schema({
   },
   password:{
     type: String,
-    required: true,
   },
   Administrador:{
     type: String,
-  }
+  },
+  isGithub:{
+    type: Boolean,
+    default: false,
+  },
 });
 
 export const userModel = mongoose.model('User',userSchema)

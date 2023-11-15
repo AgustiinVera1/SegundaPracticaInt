@@ -19,6 +19,10 @@ import sessionsRouter from './routes/sessions.router.js';
 //DB
 import './config/configDB.js';
 
+//passport
+import passport from "passport";
+import './passport.js';
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -28,11 +32,14 @@ app.use(cookieParser('cookieSecret'));
 //session con mongo
 const URI = 'mongodb+srv://agustiinvera1:Contraseña110900@cluster0.tbbdfwn.mongodb.net/ecommerce?retryWrites=true&w=majority'
 app.use(session({
-  store: new MongoStore({mongoUrl:URI}),
+	store: new MongoStore({mongoUrl:URI}),
   secret: 'secretSession',
   cookie: { maxAge: 600000 }
 }))
 
+//passport (importante tiene que ir debajo de 'session con mongo!!!')
+app.use(passport.initialize())
+app.use(passport.session())
 
 //handlebars
 app.engine('handlebars', engine());
