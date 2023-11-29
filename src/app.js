@@ -15,6 +15,8 @@ import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
 import cookieRouter from './routes/cookie.router.js';
 import sessionsRouter from './routes/sessions.router.js';
+import usersRouter from './routes/users.router.js';
+import clientsRouter from './routes/clients.router.js';
 
 //DB
 import './config/configDB.js';
@@ -61,6 +63,8 @@ app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/cookie', cookieRouter);
 app.use('/api/sessions', sessionsRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/clients', clientsRouter);
 
 const httpServer = app.listen(3000, () => {
 	console.log('Puerto 3000');

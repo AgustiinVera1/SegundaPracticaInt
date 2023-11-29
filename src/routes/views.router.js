@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { manager1 } from '../dao/fileSystem/ProductManager.js';
 import { productsManagerDB } from '../dao/mongoDB/productsManagerDB.js';
 import { cartManagerDB } from '../dao/mongoDB/cartManagerDB.js';
+import { jwtValidation } from '../middlewares/jwt.middlewares.js';
 const router = Router();
 
 router.get('/home', async (req, res) => {
@@ -70,5 +71,9 @@ router.get('/signup', (req, res) => {
 router.get('/error', async (req, res) => {
     res.render('error');
 })
+
+router.get("/restaurar", jwtValidation, (req, res) => {
+    res.render("restaurar");
+  });
 
 export default router;
